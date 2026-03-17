@@ -1,59 +1,38 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState } from 'react'
 
 const projects = [
-  { id: 1, title: 'Brand Identity Reel', category: 'Motion Design', thumbnail: '/images/projects/project-1.jpg', video: '/videos/projects/project-1.mp4' },
-  { id: 2, title: 'SaaS Product Launch', category: 'Explainer', thumbnail: '/images/projects/project-2.jpg', video: '/videos/projects/project-2.mp4' },
-  { id: 3, title: 'Educational Series', category: 'Education', thumbnail: '/images/projects/project-3.jpg', video: '/videos/projects/project-3.mp4' },
-  { id: 4, title: 'App Promo Video', category: 'Short Form', thumbnail: '/images/projects/project-4.jpg', video: '/videos/projects/project-4.mp4' },
-  { id: 5, title: 'Corporate Showreel', category: 'Motion Design', thumbnail: '/images/projects/project-5.jpg', video: '/videos/projects/project-5.mp4' },
-  { id: 6, title: 'Social Media Campaign', category: 'Short Form', thumbnail: '/images/projects/project-6.jpg', video: '/videos/projects/project-6.mp4' },
+  { id: 1, title: 'Brand Identity Reel', category: 'Motion Design', thumbnail: '/images/projects/thumbnail1.png', videoId: 'QhG8sYkm9ls' },
+  { id: 2, title: 'SaaS Product Launch', category: 'Explainer', thumbnail: '/images/projects/thumbnail1.png', videoId: 'LjAaJLPFWFg' },
+  { id: 3, title: 'Educational Series', category: 'Education', thumbnail: '/images/projects/thumbnail1.png', videoId: 'pusuRGf3Inc' },
+  { id: 4, title: 'App Promo Video', category: 'Short Form', thumbnail: '/images/projects/thumbnail1.png', videoId: 'nFruoDiUSGA' },
+  { id: 5, title: 'Corporate Showreel', category: 'Motion Design', thumbnail: '/images/projects/thumbnail1.png', videoId: 'QhG8sYkm9ls' },
+  { id: 6, title: 'Social Media Campaign', category: 'Short Form', thumbnail: '/images/projects/thumbnail1.png', videoId: 'LjAaJLPFWFg' },
 ]
+
+const getEmbedUrl = (videoId, autoplay) =>
+  `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay ? 1 : 0}&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&playsinline=1`
 
 function ProjectCard({ project, featured }) {
   const [hovered, setHovered] = useState(false)
-  const videoRef = useRef(null)
-
-  const handleEnter = useCallback(() => {
-    setHovered(true)
-    videoRef.current?.play()
-  }, [])
-
-  const handleLeave = useCallback(() => {
-    setHovered(false)
-    if (videoRef.current) {
-      videoRef.current.pause()
-      videoRef.current.currentTime = 0
-    }
-  }, [])
 
   return (
     <article
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       className={`group relative overflow-hidden glass-card glass-card-hover cursor-pointer ${
         featured ? 'sm:col-span-2 sm:row-span-2' : ''
       }`}
     >
       {/* Media */}
       <div className={`relative w-full overflow-hidden bg-white/[0.03] ${featured ? 'aspect-[16/10]' : 'aspect-video'}`}>
-        <img
-          src={project.thumbnail}
-          alt={project.title}
-          className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ease-out ${
-            hovered ? 'opacity-0 scale-110' : 'opacity-100 brightness-[0.6] grayscale-[20%]'
-          }`}
+        <iframe
+          src={getEmbedUrl(project.videoId, hovered)}
+          title={project.title}
           loading="lazy"
-        />
-
-        <video
-          ref={videoRef}
-          src={project.video}
-          muted
-          loop
-          playsInline
-          preload="none"
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out ${
-            hovered ? 'opacity-100' : 'opacity-0'
+          allow="autoplay; encrypted-media; picture-in-picture"
+          referrerPolicy="strict-origin-when-cross-origin"
+          className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ease-out ${
+            hovered ? 'brightness-100 scale-105' : 'brightness-[0.65] grayscale-[18%] scale-100'
           }`}
         />
 

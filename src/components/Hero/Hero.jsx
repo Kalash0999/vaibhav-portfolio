@@ -3,6 +3,8 @@ import gsap from 'gsap'
 
 // Lerp helper
 const lerp = (a, b, t) => a + (b - a) * t
+const heroVideoId = 'QhG8sYkm9ls'
+const heroEmbedUrl = `https://www.youtube.com/embed/${heroVideoId}?autoplay=1&mute=1&loop=1&playlist=${heroVideoId}&controls=0&modestbranding=1&rel=0&playsinline=1`
 
 export default function Hero() {
   const sectionRef = useRef(null)
@@ -193,15 +195,14 @@ export default function Hero() {
         className="absolute inset-[-4%] will-change-transform"
         style={{ transform: 'scale(1.08)' }}
       >
-        <video
+        <iframe
           ref={videoRef}
           className="h-full w-full object-cover will-change-[opacity]"
           style={{ opacity: 0 }}
-          src="/videos/heroshowreel.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
+          src={heroEmbedUrl}
+          title="Hero showreel"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          referrerPolicy="strict-origin-when-cross-origin"
         />
       </div>
 
