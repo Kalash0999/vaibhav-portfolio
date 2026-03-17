@@ -1,8 +1,7 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-import Background3D from './components/UI/Background3D'
 import LuxuryCursor from './components/UI/LuxuryCursor'
 import Navbar from './components/UI/Navbar'
 import Footer from './components/UI/Footer'
@@ -13,6 +12,8 @@ import Services from './components/Services/Services'
 import Process from './components/Process/Process'
 import Tools from './components/Tools/Tools'
 import About from './components/About/About'
+
+const Background3D = lazy(() => import('./components/UI/Background3D'))
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -140,7 +141,9 @@ function App() {
   return (
     <>
       <LuxuryCursor />
-      <Background3D />
+      <Suspense fallback={null}>
+        <Background3D />
+      </Suspense>
       <div className="relative z-10">
         <Navbar />
         <main>

@@ -217,6 +217,8 @@ function AmbientFog() {
 
 /* ─── Main export ───────────────────────────────────────── */
 export default function Background3D() {
+  if (typeof window === 'undefined') return null
+
   return (
     <div
       className="pointer-events-none fixed inset-0 z-0 opacity-65 mix-blend-screen"
